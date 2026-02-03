@@ -136,54 +136,46 @@
     <h2>Will you be my Valentine? 💘</h2>
 
     <button class="yes" onclick="yesClicked()">YES 💖</button>
-    <button class="no"
-      onmouseover="handleNo(this)"
-      ontouchstart="handleNo(this)">
-      Let me think 😅
-    </button>
+    <button class="no" onclick="handleNo(this)">Let me think 😅</button>
   </div>
 
   <script>
-/* 💖 YES button */
-function yesClicked() {
-  document.getElementById("card").innerHTML = `
-    <h1 class="pulse">YAY!!! 💕</h1>
-    <p>
-      You just made me the happiest person alive.<br>
-      From the moment I met you, my world became brighter,<br>
-      every smile of yours lights up my heart.<br>
-      I promise to make every day as special as you are ❤️
-    </p>
-  `;
-  startHearts();
-  startConfetti();
-  if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-}
-
+    /* 💖 YES button */
+    function yesClicked() {
+      document.getElementById("card").innerHTML = `
+        <h1 class="pulse">YAY!!! 💕</h1>
+        <p>
+          You just made me the happiest person alive.<br>
+          From the moment I met you, my world became brighter,<br>
+          every smile of yours lights up my heart.<br>
+          I promise to make every day as special as you are ❤️
+        </p>
+      `;
+      startHearts();
+      startConfetti();
+      if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+    }
 
     /* 😅 NO button logic */
     function handleNo(btn) {
-      moveButton(btn);
-      showWarning();
-      if (navigator.vibrate) navigator.vibrate(40);
-    }
+      // Hide the NO button
+      btn.style.display = "none";
 
-    function moveButton(btn) {
-      const x = Math.random() * 200 - 100;
-      const y = Math.random() * 200 - 100;
-      btn.style.transform = `translate(${x}px, ${y}px)`;
-    }
-
-    function showWarning() {
+      // Show the warning message
       const warning = document.getElementById("warning");
       warning.style.display = "block";
-      warning.style.animation = "none";
-      warning.offsetHeight; // reset animation
+      warning.style.animation = "none"; // reset animation
+      warning.offsetHeight; // force reflow
       warning.style.animation = "shake 0.4s";
 
+      // Optional vibration
+      if (navigator.vibrate) navigator.vibrate(40);
+
+      // After 1 second, hide warning and show the button again
       setTimeout(() => {
         warning.style.display = "none";
-      }, 2000);
+        btn.style.display = "inline-block"; // show button again
+      }, 1000);
     }
 
     /* ❤️ Hearts */
